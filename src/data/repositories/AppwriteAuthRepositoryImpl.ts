@@ -5,24 +5,30 @@ import { Query } from 'react-native-appwrite';
 
 export class AppwriteAuthRepositoryImpl implements IAuthRepository {
   async login(email: string, password: string): Promise<User> {
+  try {
     await account.deleteSession('current');
-    await account.createEmailPasswordSession(email, password);
-    const appwriteUser = await account.get();
-    
-    const userDocs = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.usersCollectionId,
-      [Query.equal('email', email)]
-    );
+  } catch (_) {}
 
-    const userData = userDocs.documents[0];
-    return {
-      id: userData.$id,
-      email: userData.email,
-      name: userData.name,
-      role: userData.role,
-    };
-  }
+  // Crea la sesión
+  const session = await account.createEmailPasswordSession(email, password);
+  
+  // Busca el documento del usuario por email (sin usar account.get())
+  const userDocs = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.usersCollectionId,
+    [Query.equal('email', email)]
+  );
+
+  if (userDocs.documents.length === 0) throw new Error('Usuario no encontrado');
+  
+  const userData = userDocs.documents[0];
+  return {
+    id: userData.$id,
+    email: userData.email,
+    name: userData.name,
+    role: userData.role as 'vendedor' | 'cliente',
+  };
+}
 
   // CORRIGE EL ORDEN DE LOS PARÁMETROS AQUÍ:
   async register(name: string, email: string, password: string, role: 'vendedor' | 'cliente'): Promise<User> {
