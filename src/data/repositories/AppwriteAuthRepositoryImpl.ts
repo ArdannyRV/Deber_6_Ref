@@ -5,6 +5,7 @@ import { Query } from 'react-native-appwrite';
 
 export class AppwriteAuthRepositoryImpl implements IAuthRepository {
   async login(email: string, password: string): Promise<User> {
+    await account.deleteSession('current');
     await account.createEmailPasswordSession(email, password);
     const appwriteUser = await account.get();
     

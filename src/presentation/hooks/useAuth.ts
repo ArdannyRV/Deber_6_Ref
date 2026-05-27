@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-// import { AuthRepositoryImpl } from '@/data/repositories/AuthRepositoryImpl';
-import { AppwriteAuthRepositoryImpl } from '../../data/repositories/AppwriteAuthRepositoryImpl';
 import { User } from '@/domain/entities/User';
 
-// const authRepo = new AuthRepositoryImpl();
-const authRepo = new AppwriteAuthRepositoryImpl();
+// import { AuthRepositoryImpl } from '@/data/repositories/AuthRepositoryImpl';         // ← Supabase
+import { AppwriteAuthRepositoryImpl } from '@/data/repositories/AppwriteAuthRepositoryImpl'; // ← Appwrite (activo)
+
+// const authRepo = new AuthRepositoryImpl();         // ← Supabase
+const authRepo = new AppwriteAuthRepositoryImpl();    // ← Appwrite (activo)
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);

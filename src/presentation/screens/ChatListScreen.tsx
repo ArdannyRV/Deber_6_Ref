@@ -4,8 +4,8 @@ import LottieView from 'lottie-react-native';
 import styled from 'styled-components/native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/presentation/hooks/useAuth';
-// import { ChatRepositoryImpl } from '@/data/repositories/ChatRepositoryImpl';
-import { AppwriteChatRepositoryImpl } from '../../data/repositories/AppwriteChatRepositoryImpl';
+// import { ChatRepositoryImpl } from '@/data/repositories/ChatRepositoryImpl';            // ← Supabase
+import { AppwriteChatRepositoryImpl } from '@/data/repositories/AppwriteChatRepositoryImpl'; // ← Appwrite (activo)
 import { GetAvailableUsersUseCase } from '@/domain/usecases/GetAvailableUsersUseCase';
 import { User } from '@/domain/entities/User';
 import { GlassHeader } from '@/presentation/components/ui/GlassHeader';
@@ -13,8 +13,8 @@ import { LogoutButton } from '@/presentation/components/ui/LogoutButton';
 import { LoaderLottie } from '@/presentation/components/ui/LoaderLottie';
 import { theme } from '@/presentation/theme/theme';
 
-// const chatRepo = new ChatRepositoryImpl();
-const chatRepo = new AppwriteChatRepositoryImpl();
+// const chatRepo = new ChatRepositoryImpl();            // ← Supabase
+const chatRepo = new AppwriteChatRepositoryImpl();       // ← Appwrite (activo)
 const getAvailableUsers = new GetAvailableUsersUseCase(chatRepo); //error aqui
 
 export function ChatListScreen() {

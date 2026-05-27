@@ -1,17 +1,17 @@
-import { Client, Account, Databases, ID } from 'react-native-appwrite';
+import { Client, Databases, Account, ID } from 'react-native-appwrite';
 
-const client = new Client()
-  .setEndpoint(process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!)
-  .setProject(process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!)
-  .setPlatform('com.ardanny.chatcomercio');
+export const appwriteConfig = {
+  endpoint: 'https://nyc.cloud.appwrite.io/v1',
+  projectId: '6a1704030035859426cf',
+  databaseId: '6a1705d8000ffebcb0c0',
+  messagesCollectionId: '6a170726002267badb1b',
+  usersCollectionId: '6a17067e0026e7c83573',
+};
+
+export const client = new Client()
+  .setEndpoint(appwriteConfig.endpoint)
+  .setProject(appwriteConfig.projectId) 
 
 export const account = new Account(client);
 export const databases = new Databases(client);
-
-export const appwriteConfig = {
-  databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!,
-  usersCollectionId: process.env.EXPO_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
-  messagesCollectionId: process.env.EXPO_PUBLIC_APPWRITE_MESSAGES_COLLECTION_ID!,
-};
-
-export { client, ID };
+export { ID };
