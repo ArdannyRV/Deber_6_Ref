@@ -29,27 +29,25 @@ export class AppwriteAuthRepositoryImpl implements IAuthRepository {
     role: userData.role as 'vendedor' | 'cliente',
   };
 }
-
-  // CORRIGE EL ORDEN DE LOS PARÁMETROS AQUÍ:
   async register(name: string, email: string, password: string, role: 'vendedor' | 'cliente'): Promise<User> {
-    
-    // Pero mantén este orden aquí adentro, porque así lo exige Appwrite:
-    const newAccount = await account.create(ID.unique(), email, password, name);
-    
-    const newUserDoc = await databases.createDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.usersCollectionId,
-      newAccount.$id,
-      { email, name, role }
-    );
+  const newAccount = await account.create(ID.unique(), email, password, name);
+  
+  const newUserDoc = await databases.createDocument(
+    appwriteConfig.databaseId,
+    appwriteConfig.usersCollectionId,
+    newAccount.$id,
+    { email, name, role }
+  );
 
-    return {
-      id: newUserDoc.$id,
-      email: newUserDoc.email,
-      name: newUserDoc.name,
-      role: newUserDoc.role as 'vendedor' | 'cliente',
-    };
-  }
+  await account.createEmailPasswordSession(email, password);
+
+  return {
+    id: newUserDoc.$id,
+    email: newUserDoc.email,
+    name: newUserDoc.name,
+    role: newUserDoc.role as 'vendedor' | 'cliente',
+  };
+}
 
   async logout(): Promise<void> {
     await account.deleteSession('current');

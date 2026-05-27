@@ -1,4 +1,15 @@
 import { Client, Databases, Account, ID } from 'react-native-appwrite';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const memoryStorage: Record<string, string> = {};
+
+if (typeof localStorage === 'undefined') {
+  (global as any).localStorage = {
+    getItem: (key: string): string | null => memoryStorage[key] ?? null,
+    setItem: (key: string, value: string): void => { memoryStorage[key] = value; },
+    removeItem: (key: string): void => { delete memoryStorage[key]; },
+  };
+}
 
 export const appwriteConfig = {
   endpoint: 'https://nyc.cloud.appwrite.io/v1',
