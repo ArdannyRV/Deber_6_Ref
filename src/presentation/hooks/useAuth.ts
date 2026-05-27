@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { AuthRepositoryImpl } from '@/data/repositories/AuthRepositoryImpl';
+// import { AuthRepositoryImpl } from '@/data/repositories/AuthRepositoryImpl';
+import { AppwriteAuthRepositoryImpl } from '../../data/repositories/AppwriteAuthRepositoryImpl';
 import { User } from '@/domain/entities/User';
 
-const authRepo = new AuthRepositoryImpl();
+// const authRepo = new AuthRepositoryImpl();
+const authRepo = new AppwriteAuthRepositoryImpl();
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);

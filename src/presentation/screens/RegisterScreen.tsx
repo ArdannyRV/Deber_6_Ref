@@ -19,13 +19,32 @@ export function RegisterScreen() {
   const [role, setRole] = useState<'vendedor' | 'cliente' | null>(null);
 
   const handleRegister = async () => {
-    if (!name.trim() || !email.trim() || !password.trim() || !role) return;
-    const user = await register(name.trim(), email.trim(), password.trim(), role);
-    if (user) {
-      router.replace('/(chat)/list');
+    console.log("1. Botón presionado");
+    console.log("2. Valores crudos ->", { name, email, password, role });
+
+    if (!name.trim() || !email.trim() || !password.trim() || !role) {
+      console.log("3. Faltan datos, cancelando registro");
+      return;
+    }
+
+    let finalEmail = email.trim();
+    if (!finalEmail.includes('@')) {
+      finalEmail = `${finalEmail}@test.com`;
+    }
+
+    console.log("4. Correo final que se enviará a Appwrite:", finalEmail);
+
+    try {
+      const user = await register(name.trim(), finalEmail, password.trim(), role);
+      console.log("5. Usuario registrado con éxito:", user);
+      if (user) {
+        router.replace('/(chat)/list');
+      }
+    } catch (error) {
+      console.log("6. ERROR DE APPWRITE AL REGISTRAR:", error.message);
     }
   };
-
+  
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: 'transparent' }}

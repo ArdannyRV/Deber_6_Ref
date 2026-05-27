@@ -1,4 +1,4 @@
-import { IAuthRepository } from '../repositories/IAuthRepository';
+import { IAuthRepository } from '../repositories/IAuthRepository'; 
 import { User } from '../entities/User';
 
 export class LoginUseCase {
